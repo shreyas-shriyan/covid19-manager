@@ -5,13 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import { markUserRecovered, addUsersToQuarantine } from "../redux/user/actions"
 import styles from "./style.module.css"
+import InputGroup from "react-bootstrap/InputGroup"
+import FormControl from "react-bootstrap/FormControl"
 
-export default function Covid() {
+export default function Covid(props) {
     const { employees } = useSelector((state) => state.user);
 
     const [show, setShow] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [currentEmp, setCurrentEmp] = useState({});
+    const [input, setInput] = useState("")
 
     const dispatch = useDispatch()
 
@@ -41,30 +44,50 @@ export default function Covid() {
 
     return (
         <div style={{ margin: "20px 10%" }}>
-            <Table striped bordered hover >
-                <thead>
-                    <tr>
-                        <th>Emp id</th>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Designation</th>
-                        <th>Quarantine Days</th>
-                        <th># of quarantines</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {employees.filter((item) => item.Covid === true).map((item => <tr key={item.EmpId}>
-                        <td>{item.EmpId}</td>
-                        <td>{item.Name}</td>
-                        <td>{item.Department}</td>
-                        <td>{item.Designation}</td>
-                        <td>{item.quarantineDays}</td>
-                        <td style={{ color: 'DodgerBlue' }} onClick={(e) => handleShow(e, item)} >{item.Contacts.length}</td>
-                        <td><Button onClick={(e) => handleShowDialog(e, item)} variant={"success"}>{"Mark Recover"}</Button></td>
-                    </tr>))}
-                </tbody>
-            </Table>
+            <div>
+                <InputGroup className="mb-3" style={{ width: "40%" }}>
+                    <InputGroup.Prepend>
+                        <InputGroup.Text id="basic-addon1">search</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                        onChange={(e) => setInput(e.target.value.toLowerCase())}
+                        placeholder="search employees"
+                        value={input}
+                        aria-label="input"
+                        aria-describedby="basic-addon1"
+                    />
+                </InputGroup>
+                {employees.filter((item) => item.Name.toLowerCase().includes(input)).filter((item) => item.Covid === true).length === 0 ? <div>
+                    <div>No employees found</div>
+                    <Button style={{ marginTop: "20px" }} onClick={() => props.handleSelect(1)}>View all employees</Button>
+                </div> :
+                    <Table striped bordered hover >
+                        <thead>
+                            <tr>
+                                <th>Emp id</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Quarantine Days</th>
+                                <th># of quarantines</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {employees.filter((item) => item.Covid === true).map((item => <tr key={item.EmpId}>
+                                <td>{item.EmpId}</td>
+                                <td>{item.Name}</td>
+                                <td>{item.Department}</td>
+                                <td>{item.Designation}</td>
+                                <td>{item.quarantineDays}</td>
+                                <td style={{ color: 'DodgerBlue' }} onClick={(e) => handleShow(e, item)} >{item.Contacts.length}</td>
+                                <td><Button onClick={(e) => handleShowDialog(e, item)} variant={"success"}>{"Mark Recover"}</Button></td>
+                            </tr>))}
+                        </tbody>
+                    </Table>
+                }
+            </div>
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Employees to be quarantined</Modal.Title>
@@ -116,7 +139,6 @@ export default function Covid() {
                     <Button onClick={(e) => markRecovered(e, currentEmp.EmpId)} variant="danger">Confirm</Button>
                 </Modal.Footer>
             </Modal>
-
         </div>
     )
 }

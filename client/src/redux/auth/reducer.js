@@ -27,13 +27,13 @@ const reducer = (state = initialState, action) => {
                 JSON.stringify({
                     ...action.payload,
                     ...state,
-                    authToken: action.payload.authToken,
+                    authToken: action.payload.token,
                 })
             );
             return {
                 ...action.payload,
                 ...state,
-                authToken: action.payload.authToken,
+                authToken: action.payload.token,
                 loginLoading: false,
                 loginError: ''
             };

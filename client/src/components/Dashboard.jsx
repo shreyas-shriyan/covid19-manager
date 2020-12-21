@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import AllEmployees from './AllEmployees';
@@ -13,22 +13,28 @@ export default function Dashboard(props) {
     const { employees } = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
+    const [tab, setTab] = useState(1)
+
     useEffect(() => {
         dispatch(getUser())
     }, [])
+
+    const handleSelect = (tab) => {
+        setTab(tab)
+    }
 
     return (
         <div>
             <Navbar></Navbar>
             <h2 style={{ margin: "20px 10%", textAlign: "left" }}>List of Employees</h2>
-            <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" style={{ margin: "20px 10%" }}>
-                <Tab eventKey="all" title={`All employees(${employees && employees.length})`}>
+            <Tabs activeKey={tab} onSelect={handleSelect} id="controlled-tab-example" style={{ margin: "20px 10%" }}>
+                <Tab eventKey={1} title={`All employees(${employees && employees.length})`}>
                     <AllEmployees></AllEmployees>
                 </Tab>
-                <Tab eventKey="covid" title={`Covid(${employees && employees.filter((item) => item.Covid === true).length})`}>
-                    <Covid></Covid>
+                <Tab eventKey={2} title={`Covid(${employees && employees.filter((item) => item.Covid === true).length})`}>
+                    <Covid handleSelect={handleSelect}></Covid>
                 </Tab>
-                <Tab eventKey="quarantined" title="Quarantined">
+                <Tab eventKey={3} title={`Quarantined(${employees && employees.filter((item) => item.Quarantined === true).length})`}>
                     <Quarantined></Quarantined>
                 </Tab>
             </Tabs>
