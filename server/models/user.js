@@ -10,8 +10,8 @@ const userSchema = new Schema({
     Contacts: [{
         type: String
     }],
-    Covid: { type: String, required: true, default: false },
-    Quarantined: { type: String, required: true, default: false },
+    Covid: { type: Boolean, required: true, default: false },
+    Quarantined: { type: Boolean, required: true, default: false },
     quarantineDays: { type: String, required: true, default: "0" },
 }, { versionKey: false });
 

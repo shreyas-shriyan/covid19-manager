@@ -1,4 +1,4 @@
-import { GET_USER_SUCCESS, GET_USER_FAILURE, MARK_USER_POSITIVE_SUCCESS, MARK_USER_POSITIVE_FAILURE } from './actionTypes';
+import { GET_USER_SUCCESS, GET_USER_FAILURE, MARK_USER_POSITIVE_SUCCESS, MARK_USER_POSITIVE_FAILURE, MARK_USER_RECOVERED_SUCCESS, MARK_USER_RECOVERED_FAILURE } from './actionTypes';
 
 import axios from 'axios';
 
@@ -22,6 +22,16 @@ export const markUserPositiveFailure = (payload) => ({
     payload
 });
 
+export const markUserRecoveredSuccess = (payload) => ({
+    type: MARK_USER_RECOVERED_SUCCESS,
+    payload
+});
+
+export const markUserRecoveredFailure = (payload) => ({
+    type: MARK_USER_RECOVERED_FAILURE,
+    payload
+});
+
 export const getUser = (data) => (dispatch) => {
     return axios({
         method: 'get',
@@ -36,11 +46,22 @@ export const getUser = (data) => (dispatch) => {
 export const markUserPositive = (data) => (dispatch) => {
     return axios({
         method: 'post',
-        url: 'http://localhost:5000/api/user',
+        url: 'http://localhost:5000/api/user/mark-positive',
         data,
         headers: { 'content-type': 'application/json' }
     })
         .then((res) => dispatch(markUserPositiveSuccess(res.data)))
         .catch((err) => dispatch(markUserPositiveFailure(err.response.data)));
+};
+
+export const markUserRecovered = (data) => (dispatch) => {
+    return axios({
+        method: 'post',
+        url: 'http://localhost:5000/api/user/mark-recovered',
+        data,
+        headers: { 'content-type': 'application/json' }
+    })
+        .then((res) => dispatch(markUserRecoveredSuccess(res.data)))
+        .catch((err) => dispatch(markUserRecoveredFailure(err.response.data)));
 };
 

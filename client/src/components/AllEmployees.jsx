@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import Table from "react-bootstrap/Table"
 import Button from "react-bootstrap/Button"
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Modal from "react-bootstrap/Modal"
+import { markUserPositive, markUserRecovered } from "../redux/user/actions"
 
 export default function AllEmployees() {
     const { employees } = useSelector((state) => state.user);
 
+    const dispatch = useDispatch()
 
     const [show, setShow] = useState(false);
     const [currentEmp, setCurrentEmp] = useState({});
@@ -18,8 +20,16 @@ export default function AllEmployees() {
         setCurrentEmp(item)
     };
 
-    const markPositive = () => {
+    const markPositive = (e, id) => {
+        let temp = { id: id }
+        dispatch(markUserPositive(temp))
+        handleClose()
+    }
 
+    const markRecovered = (e, id) => {
+        let temp = { id: id }
+        dispatch(markUserRecovered(temp))
+        handleClose()
     }
 
     return (
@@ -56,7 +66,7 @@ export default function AllEmployees() {
 
                 <Modal.Footer>
                     <Button onClick={handleClose} variant="secondary">Cancel</Button>
-                    <Button onClick={(e) => markPositive(e, currentEmp.EmpId)} variant="primary">Confirm</Button>
+                    <Button onClick={currentEmp.Covid === false ? (e) => markPositive(e, currentEmp.EmpId) : (e) => markRecovered(e, currentEmp.EmpId)} variant="primary">Confirm</Button>
                 </Modal.Footer>
             </Modal>
         </div>

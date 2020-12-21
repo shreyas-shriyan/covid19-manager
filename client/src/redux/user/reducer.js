@@ -1,4 +1,4 @@
-import { GET_USER_SUCCESS, GET_USER_FAILURE } from './actionTypes';
+import { GET_USER_SUCCESS, GET_USER_FAILURE, MARK_USER_POSITIVE_SUCCESS, MARK_USER_RECOVERED_SUCCESS } from './actionTypes';
 
 const initialState = {
     getUserError: '',
@@ -20,6 +20,20 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loginError: action.payload
             };
+
+        case MARK_USER_POSITIVE_SUCCESS: {
+            return {
+                ...state,
+                employees: action.payload.employees,
+            };
+        }
+
+        case MARK_USER_RECOVERED_SUCCESS: {
+            return {
+                ...state,
+                employees: action.payload.employees,
+            };
+        }
 
         default:
             return state;
