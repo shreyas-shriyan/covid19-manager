@@ -10,11 +10,13 @@ export default function Covid() {
     const { employees } = useSelector((state) => state.user);
 
     const [show, setShow] = useState(false);
+    const [showDialog, setShowDialog] = useState(false);
     const [currentEmp, setCurrentEmp] = useState({});
 
     const dispatch = useDispatch()
 
     const handleClose = () => setShow(false);
+    const handleDialogClose = () => setShowDialog(false);
 
     const handleShow = (e, item) => {
         setShow(true)
@@ -24,13 +26,18 @@ export default function Covid() {
     const markRecovered = (e, id) => {
         let temp = { id: id }
         dispatch(markUserRecovered(temp))
-        handleClose()
+        handleDialogClose()
     }
 
     const addToQuarantine = (e) => {
-        dispatch(addUsersToQuarantine(currentEmp.Contacts))
+        dispatch(addUsersToQuarantine({ ids: currentEmp.Contacts }))
         handleClose()
     }
+
+    const handleShowDialog = (e, item) => {
+        setShowDialog(true)
+        setCurrentEmp(item)
+    };
 
     return (
         <div style={{ margin: "20px 10%" }}>
@@ -54,7 +61,7 @@ export default function Covid() {
                         <td>{item.Designation}</td>
                         <td>{item.quarantineDays}</td>
                         <td style={{ color: 'DodgerBlue' }} onClick={(e) => handleShow(e, item)} >{item.Contacts.length}</td>
-                        <td><Button onClick={(e) => markRecovered(e, item.EmpId)} variant={"success"}>{"Mark Recover"}</Button></td>
+                        <td><Button onClick={(e) => handleShowDialog(e, item)} variant={"success"}>{"Mark Recover"}</Button></td>
                     </tr>))}
                 </tbody>
             </Table>
@@ -67,9 +74,9 @@ export default function Covid() {
                     <div className={styles.dataRow}>
                         <div>{`# of employees : ${currentEmp.Contacts && currentEmp.Contacts.length} `}</div>
                         <div>|</div>
-                        <div>{`  Man days:${currentEmp.Contacts && currentEmp.Contacts.length}`}</div>
+                        <div>{`  Man days:${currentEmp.Contacts && currentEmp.Contacts.length * 5}`}</div>
                         <div>|</div>
-                        <div>{`Man days saved: ${currentEmp.Contacts && currentEmp.Contacts.length * 5}`}</div>
+                        <div>{`Man days saved: ${currentEmp.Contacts && (currentEmp.Contacts.length * 7) - currentEmp.Contacts.length * 5}`}</div>
                     </div>
                     <Table striped bordered hover>
                         <thead>
@@ -94,6 +101,22 @@ export default function Covid() {
                     <Button variant="primary" onClick={(e) => addToQuarantine(e)}>Confirm</Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* confirmation modal */}
+            <Modal show={showDialog} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Are you sure?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>{`Do you want to mark ${currentEmp.EmpId}, ${currentEmp.Name} has recovered from COVID+ve`}</p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button onClick={handleDialogClose} variant="secondary">Cancel</Button>
+                    <Button onClick={(e) => markRecovered(e, currentEmp.EmpId)} variant="danger">Confirm</Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     )
 }

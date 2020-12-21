@@ -50,7 +50,7 @@ const markUserPositiveController = async (req, res) => {
 const markUserRecoveredController = async (req, res) => {
     if (req.body.id) {
         try {
-            const user = await User.updateOne({ EmpId: req.body.id }, { Covid: false });
+            const user = await User.updateOne({ EmpId: req.body.id }, { Covid: false, Quarantined: false });
             const users = await User.find()
             if (users) {
                 res.status(200).json({
@@ -73,10 +73,10 @@ const markUserRecoveredController = async (req, res) => {
     }
 };
 
-const addToQuarantineSuccessController = async (req, res) => {
+const addToQuarantineController = async (req, res) => {
     if (req.body.ids) {
         try {
-            const user = await User.updateOne({ EmpId: req.body.id }, { Covid: false });
+            await User.updateMany({ EmpId: { "$in": req.body.ids } }, { "$set": { Quarantined: true } });
             const users = await User.find()
             if (users) {
                 res.status(200).json({
@@ -99,4 +99,4 @@ const addToQuarantineSuccessController = async (req, res) => {
     }
 };
 
-module.exports = { getUserController, markUserPositiveController, markUserRecoveredController, addToQuarantineSuccessController }
+module.exports = { getUserController, markUserPositiveController, markUserRecoveredController, addToQuarantineController }
