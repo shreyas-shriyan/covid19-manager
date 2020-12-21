@@ -10,3 +10,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.dataRow{
+    display: flex;
+}
+
+.dataRow > div{
+    margin: 5px 5px;
+    color: red
+}

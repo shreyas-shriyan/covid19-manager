@@ -1,4 +1,4 @@
-import { GET_USER_SUCCESS, GET_USER_FAILURE, MARK_USER_POSITIVE_SUCCESS, MARK_USER_POSITIVE_FAILURE, MARK_USER_RECOVERED_SUCCESS, MARK_USER_RECOVERED_FAILURE } from './actionTypes';
+import { GET_USER_SUCCESS, GET_USER_FAILURE, MARK_USER_POSITIVE_SUCCESS, MARK_USER_POSITIVE_FAILURE, MARK_USER_RECOVERED_SUCCESS, MARK_USER_RECOVERED_FAILURE, ADD_TO_QUARANTINE_SUCCESS } from './actionTypes';
 
 import axios from 'axios';
 
@@ -29,6 +29,11 @@ export const markUserRecoveredSuccess = (payload) => ({
 
 export const markUserRecoveredFailure = (payload) => ({
     type: MARK_USER_RECOVERED_FAILURE,
+    payload
+});
+
+export const addToQuarantineSuccess = (payload) => ({
+    type: ADD_TO_QUARANTINE_SUCCESS,
     payload
 });
 
@@ -63,5 +68,17 @@ export const markUserRecovered = (data) => (dispatch) => {
     })
         .then((res) => dispatch(markUserRecoveredSuccess(res.data)))
         .catch((err) => dispatch(markUserRecoveredFailure(err.response.data)));
+};
+
+export const addUsersToQuarantine = (data) => (dispatch) => {
+
+    return axios({
+        method: 'post',
+        url: 'http://localhost:5000/api/user/mark-quarantine',
+        data,
+        headers: { 'content-type': 'application/json' }
+    })
+        .then((res) => dispatch(addToQuarantineSuccess(res.data)))
+        .catch((err) => console.log(err));
 };
 
