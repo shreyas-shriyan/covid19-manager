@@ -1,9 +1,10 @@
 import React from 'react'
 import Table from "react-bootstrap/Table"
-import data from "../data/employees"
 import Button from "react-bootstrap/Button"
+import { useSelector } from 'react-redux';
 
 export default function AllEmployees() {
+    const { employees } = useSelector((state) => state.user);
     return (
         <div style={{ margin: "20px 10%" }}>
             <Table striped bordered hover >
@@ -18,8 +19,8 @@ export default function AllEmployees() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.employees.map((item => <tr key={item["Employee ID"]}>
-                        <td>{item["Employee ID"]}</td>
+                    {employees.map((item => <tr key={item.EmpId}>
+                        <td>{item.EmpId}</td>
                         <td>{item.Covid ? "Covid+ve" : "Healthy"}</td>
                         <td>{item.Name}</td>
                         <td>{item.Department}</td>

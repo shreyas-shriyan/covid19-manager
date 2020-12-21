@@ -29,6 +29,7 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(username, password)
         dispatch(loginUser({ username, password }));
     }
 
