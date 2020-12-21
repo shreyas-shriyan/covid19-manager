@@ -15,6 +15,6 @@ router.post("/register", userRegisterController);
 
 router.get("/user", getUserController);
 router.post("/user/mark-positive", markUserPositiveController)
-router.post("/user/mark-recovered", markUserPositiveController)
+router.post("/user/mark-recovered", markUserRecoveredController)
 
 module.exports = router;

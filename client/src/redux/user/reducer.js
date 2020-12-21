@@ -29,6 +29,7 @@ const reducer = (state = initialState, action) => {
         }
 
         case MARK_USER_RECOVERED_SUCCESS: {
+            console.log(action.payload.employees)
             return {
                 ...state,
                 employees: action.payload.employees,

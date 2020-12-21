@@ -7,7 +7,8 @@ let data = JSON.parse(
       "Location": "Bhiwadi",
       "Designation": "FL",
       "Department": "GRINDING & POLISHING",
-      "Contacts" : ["9500012","9001892","9500082","1000169"]
+      "Contacts" : ["9500012","9001892","9500082","1000169"],
+      "quarantineDays" : "7"
     },
     {
       "EmpId": "9500012",
@@ -23,7 +24,8 @@ let data = JSON.parse(
       "Location": "Bhiwadi",
       "Designation": "Trainee",
       "Department": "MACHINE SHOP",
-      "Contacts" : ["9500270","9500201","9500135","9500127"]
+      "Contacts" : ["9500270","9500201","9500135","9500127"],
+      "quarantineDays" : "7"
     },
     {
       "EmpId": "9001892",

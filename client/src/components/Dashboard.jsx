@@ -17,8 +17,6 @@ export default function Dashboard(props) {
         dispatch(getUser())
     }, [])
 
-    console.log(employees)
-
     return (
         <div>
             <Navbar></Navbar>

@@ -32,11 +32,10 @@ export const markUserRecoveredFailure = (payload) => ({
     payload
 });
 
-export const getUser = (data) => (dispatch) => {
+export const getUser = () => (dispatch) => {
     return axios({
         method: 'get',
         url: 'http://localhost:5000/api/user',
-        data,
         headers: { 'content-type': 'application/json' }
     })
         .then((res) => dispatch(getUserSuccess(res.data)))
@@ -55,6 +54,7 @@ export const markUserPositive = (data) => (dispatch) => {
 };
 
 export const markUserRecovered = (data) => (dispatch) => {
+
     return axios({
         method: 'post',
         url: 'http://localhost:5000/api/user/mark-recovered',

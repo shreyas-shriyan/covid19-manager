@@ -52,7 +52,7 @@ export default function AllEmployees() {
                         <td>{item.Name}</td>
                         <td>{item.Department}</td>
                         <td>{item.Designation}</td>
-                        <td><Button onClick={(e) => handleShow(e, item)} variant={item.Covid === true ? "danger" : "success"}>{item.Covid === true ? "Mark Recover" : "Mark Covid"}</Button></td>
+                        <td><Button onClick={(e) => handleShow(e, item)} variant={item.Covid === false ? "danger" : "success"}>{item.Covid === true ? "Mark Recover" : "Mark Covid"}</Button></td>
                     </tr>))}
                 </tbody>
             </Table>
@@ -61,7 +61,7 @@ export default function AllEmployees() {
                     <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>{`Do you want to mark ${currentEmp.EmpId}, ${currentEmp.Name} as COVID+ve`}</p>
+                    <p>{`Do you want to mark ${currentEmp.EmpId}, ${currentEmp.Name} as ${currentEmp.Covid === false ? "" : "recovered from"} COVID+ve`}</p>
                 </Modal.Body>
 
                 <Modal.Footer>

@@ -24,10 +24,9 @@ const getUserController = async (req, res) => {
 const markUserPositiveController = async (req, res) => {
     if (req.body.id) {
         try {
-            console.log(req.body.id)
-            const user = await User.update({ EmpId: req.body.id }, { Covid: "true" });
+            const user = await User.updateOne({ EmpId: req.body.id }, { Covid: true });
             const users = await User.find()
-            if (user) {
+            if (users) {
                 res.status(200).json({
                     message: "user updated",
                     employees: users
@@ -35,7 +34,7 @@ const markUserPositiveController = async (req, res) => {
             }
             else {
                 res.status(200).json({
-                    message: "selected employee found",
+                    message: "selected employee not found",
                     employees: users
                 });
             }
@@ -51,10 +50,9 @@ const markUserPositiveController = async (req, res) => {
 const markUserRecoveredController = async (req, res) => {
     if (req.body.id) {
         try {
-            console.log(req.body.id)
-            const user = await User.update({ EmpId: req.body.id }, { Covid: false, Quarantined: false });
+            const user = await User.updateOne({ EmpId: req.body.id }, { Covid: false });
             const users = await User.find()
-            if (user) {
+            if (users) {
                 res.status(200).json({
                     message: "user updated",
                     employees: users
@@ -62,7 +60,7 @@ const markUserRecoveredController = async (req, res) => {
             }
             else {
                 res.status(200).json({
-                    message: "selected employee found",
+                    message: "selected employee not found",
                     employees: users
                 });
             }
