@@ -25,7 +25,7 @@ export default function Dashboard(props) {
                 <Tab eventKey="all" title={`All employees(${employees && employees.length})`}>
                     <AllEmployees></AllEmployees>
                 </Tab>
-                <Tab eventKey="covid" title={`Covid(${employees && employees.filter((item) => item.Covid).length})`}>
+                <Tab eventKey="covid" title={`Covid(${employees && employees.filter((item) => item.Covid === true).length})`}>
                     <Covid></Covid>
                 </Tab>
                 <Tab eventKey="quarantined" title="Quarantined">

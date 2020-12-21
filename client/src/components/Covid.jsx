@@ -18,8 +18,8 @@ export default function Covid() {
                     </tr>
                 </thead>
                 <tbody>
-                    {employees.filter((item) => item.Covid).map((item => <tr key={item["Employee ID"]}>
-                        <td>{item["Employee ID"]}</td>
+                    {employees.filter((item) => item.Covid === true).map((item => <tr key={item.EmpId}>
+                        <td>{item.EmpId}</td>
                         <td>{item.Name}</td>
                         <td>{item.Department}</td>
                         <td>{item.Designation}</td>
